@@ -1,5 +1,4 @@
 .vscode
-.war.dSYM
-.a.out
-.orientacoes.txt
+.dSYM/Contents
 .war
+.DS_Store

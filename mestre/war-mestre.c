@@ -13,23 +13,21 @@
 // ============================================================================
 
 
-// Inclusão das bibliotecas padrão necessárias para entrada/saída, alocação de memória, manipulação de strings e tempo.
+// Inclusão das bibliotecas padrão necessárias para entrada/saída, alocação de memória, manipulação de strings, tempo e modularização.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
-// Inclusão do arquivo de cabeçalho com definições de estruturas e constantes.
 #include "funcoes.h"
-#include "estruturas.h"
-
 
 // Função principal para cadastrar exibir menu, cadastrar territórios e listar territórios
 int main() {
+    srand(time(NULL)); // Inicializa o gerador de números aleatórios
     struct Territorio* mapa;
     mapa = calloc(MAX_TERRITORIOS, sizeof(struct Territorio));
     int totalTerritorios = 0;
     int opcao;
+    char missao[200];
 
     // Loop principal do menu
     do {
@@ -37,6 +35,8 @@ int main() {
         printf("\n1 - Cadastrar novo territorio\n");
         printf("2 - Listar todos os territorios\n");
         printf("3 - Simular Ataque entre Territorios\n");
+        printf("4 - Sortear Missao\n");
+        printf("5 - Verificar Missao\n");
         printf("0 - Sair\n");
         printf("--------------------------------------------\n");
         printf("\nEscolha uma opcao: ");
@@ -57,10 +57,25 @@ int main() {
                 combate(mapa, totalTerritorios);
                 break;
 
-                case 0: // Sair
+            case 4: // Sortear Missao
+                sortearMissao(missao, mapa, totalTerritorios);
+                printf("Missao sorteada: %s\n", missao);
+                break;   
+
+            case 5: // Verificar Missao
+                if (strlen(missao) > 0) { 
+                    verificarMissao(missao, mapa, totalTerritorios);
+            } else {
+                printf("Nenhuma missao foi sorteada ainda. Escolha a opcao 4 primeiro.\n");
+    }
+    
+    break;
+                
+            case 0: // Sair
                     printf("\nLiberando memória e saindo do sistema. Ate mais!\n");
                     free(mapa); // Libera a memória alocada para o mapa
                     break;
+            
         }
     } while (opcao != 0); // Continua até o usuário escolher sair
     return 0;
